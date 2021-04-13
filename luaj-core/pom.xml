@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.luaj</groupId>
+		<groupId>com.github.farmboy0.luaj</groupId>
 		<artifactId>luaj-parent</artifactId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0.3</version>
 	</parent>
 
 	<artifactId>luaj-core</artifactId>
