@@ -44,12 +44,12 @@ Freely available under the terms of the
 <!-- ====================================================================== -->
 <p>
 
-<h1>1 - <a name="1">Introduction</a></h1>
+<h1>1 – <a name="1">Introduction</a></h1>
 <h2>Goals of Luaj</h2>
 Luaj is a lua interpreter based on the 5.2.x version of lua with the following goals in mind:
 <ul>
 <li>Java-centric implementation of lua vm built to leverage standard Java features.
-<li>Lightweight, high performance execution of lua. 
+<li>Lightweight, high-performance execution of lua. 
 <li>Multi-platform to be able to run on JME, JSE, or JEE environments. 
 <li>Complete set of libraries and tools for integration into real-world projects.
 <li>Dependable due to sufficient unit testing of vm and library features. 
@@ -91,14 +91,14 @@ The following table provides measured execution times on a subset of benchmarks 
 in comparison with the standard C distribution. 
 <table cellspacing="10"><tr><td><table>
 <tr valign="top">
-	<td><u>Project</td>
-	<td><u>Version</td>
-	<td><u>Mode</td>
+	<td><u>Project</u></td>
+	<td><u>Version</u></td>
+	<td><u>Mode</u></td>
 	<td rowspan="9">&nbsp;&nbsp;</td>
-	<td colspan="4" align="center"><u>Benchmark&nbsp;execution&nbsp;time&nbsp;(sec)</td>
+	<td colspan="4" align="center"><u>Benchmark&nbsp;execution&nbsp;time&nbsp;(sec)</u></td>
 	<td rowspan="9">&nbsp;&nbsp;</td>
-	<td><u>Language</td>
-	<td><u>Sample&nbsp;command</td>
+	<td><u>Language</u></td>
+	<td><u>Sample&nbsp;command</u></td>
 	</tr>
 <tr valign="top">
 	<td colspan="2"></td>
@@ -175,7 +175,7 @@ the lua-to-java-bytecode (luajc) compiler is used,
 and actually executes <em>faster</em> than C-based lua in some cases.  
 It is also faster than Java-lua implementations Jill, Kahlua, and Mochalua for all benchmarks tested.  
 
-<h1>2 - <a name="2">Examples</a></h1>
+<h1>2 – <a name="2">Examples</a></h1>
 
 <h2>Run a lua script in Java SE</h2>
 
@@ -386,7 +386,7 @@ lua source or lua binary files.
 <p>
 The requires <em>bcel</em> to be on the class path, and the ClassLoader of JSE or CDC.  
 
-<h1>3 - <a name="3">Concepts</a></h1>
+<h1>3 – <a name="3">Concepts</a></h1>
 
 <h2>Globals</h2>
 The old notion of platform has been replaced with creation of globals.  
@@ -483,7 +483,7 @@ A lua sandbox that limits librares,limits bytecodes per script, and makes shared
 A heavier but strong sandbox where each script gets its own class loader and a full private luaj implementation
 </ul>
 
-<h1>4 - <a name="4">Libraries</a></h1>
+<h1>4 – <a name="4">Libraries</a></h1>
 
 <h2>Standard Libraries</h2>
 
@@ -599,7 +599,7 @@ The Java ME platform does not include this library, and it cannot be made to wor
 <p>
 The <em>lua</em> connand line tool includes <em>luajava</em>. 
 
-<h1>5 - <a name="5">LuaJ API</a></h1>
+<h1>5 – <a name="5">LuaJ API</a></h1>
 
 <h2>API Javadoc</h2>
 The javadoc for the main classes in the LuaJ API are on line at
@@ -777,7 +777,7 @@ and is generally not directly manipulated by the user of luaj.
 See the <a href="http://luaj.org/luaj/3.0/api/org/luaj/vm2/LuaClosure.html">org.luaj.vm2.LuaClosure</a> 
 javadoc for details on using that class directly. 
 
-<h1>6 - <a name="6">Parser</a></h1>
+<h1>6 – <a name="6">Parser</a></h1>
 
 <h2>Javacc Grammar</h2>
 A Javacc grammar was developed to simplify the creation of Java-based parsers for the lua language.
@@ -828,7 +828,7 @@ An example that prints locations of all function definitions in a file may be fo
 <p>
 See the <a href="http://luaj.org/luaj/3.0/api/org/luaj/vm2/ast/package-summary.html">org.luaj.vm2.ast package</a> javadoc for the API relating to the syntax tree that is produced. 
 
-<h1>7 - <a name="7">Building and Testing</a></h1>
+<h1>7 – <a name="7">Building and Testing</a></h1>
 
 <h2><a name="maven">Maven integration</a></h2>
 The main jar files are now deployed in the maven central repository.  To use them in your maven-based project, list them as a dependency:
@@ -840,7 +840,7 @@ For JSE projects, add this dependency for the luaj-jse jar:
       &lt;groupId&gt;org.luaj&lt;/groupId&gt;
       &lt;artifactId&gt;luaj-jse&lt;/artifactId&gt;
       &lt;version&gt;3.0.2&lt;/version&gt;
-   &lt;/dependency&gt;	
+   &lt;/dependency&gt;
 </pre>
 while for JME projects, use the luaj-jme jar:
 <pre>
@@ -848,7 +848,7 @@ while for JME projects, use the luaj-jme jar:
       &lt;groupId&gt;org.luaj&lt;/groupId&gt;
       &lt;artifactId&gt;luaj-jme&lt;/artifactId&gt;
       &lt;version&gt;3.0.2&lt;/version&gt;
-   &lt;/dependency&gt;	
+   &lt;/dependency&gt;
 </pre>
 
 An example skelton maven pom file for a skeleton project is in 
@@ -883,7 +883,7 @@ Executon is included in the build of luaj-test.
 The maven build creates the coverage report in the luaj-test/target/site folder
 during the verify phase.
 
-<h1>8 - <a name="8">Downloads</a></h1>
+<h1>8 – <a name="8">Downloads</a></h1>
 
 <h2>Downloads and Project Pages</h2>
 Downloads for all version available on SourceForge or LuaForge.  
@@ -898,7 +898,7 @@ The jar files may also be downloaded from the maven central repository, see <a h
 <p/>
 Files are no longer hosted at LuaForge.
 
-<h1>9 - <a name="9">Release Notes</a></h1>
+<h1>9 – <a name="9">Release Notes</a></h1>
 
 <h2>Main Changes by Version</h2>
 <table cellspacing="10"><tr><td><table cellspacing="4">

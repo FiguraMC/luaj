@@ -13,9 +13,9 @@ class OsLibTest {
 	double   time;
 
 	@BeforeEach
-	public void setUp() {
+	public void reset() {
 		jme_lib = JmePlatform.standardGlobals().get("os");
-		time = 998571302000L/1000.0;
+		time = 998571302000L/1000.0; // todo figure out if this needs to be compensated for timezone, potentially needs to be 998564102000L
 	}
 
 	void test(String format, String expected) {
@@ -89,16 +89,16 @@ class OsLibTest {
 	@Test
 	void testStringDate_Pct() { test("%%", "%"); }
 
-	static final double DAY = 24.*3600.;
+	static final double DAY = 86400.0;
 
 	@Test
-	void testStringDate_UW_neg4() { time -= 4*DAY; test("%c %U %W", "Sun Aug 19 14:55:02 2001 33 33"); }
+	void testStringDate_UW_neg4() { time -= 4 * DAY; test("%c %U %W", "Sun Aug 19 14:55:02 2001 33 33"); }
 
 	@Test
-	void testStringDate_UW_neg3() { time -= 3*DAY; test("%c %U %W", "Mon Aug 20 14:55:02 2001 33 34"); }
+	void testStringDate_UW_neg3() { time -= 3 * DAY; test("%c %U %W", "Mon Aug 20 14:55:02 2001 33 34"); }
 
 	@Test
-	void testStringDate_UW_neg2() { time -= 2*DAY; test("%c %U %W", "Tue Aug 21 14:55:02 2001 33 34"); }
+	void testStringDate_UW_neg2() { time -= 2 * DAY; test("%c %U %W", "Tue Aug 21 14:55:02 2001 33 34"); }
 
 	@Test
 	void testStringDate_UW_neg1() { time -= DAY; test("%c %U %W", "Wed Aug 22 14:55:02 2001 33 34"); }
@@ -110,13 +110,13 @@ class OsLibTest {
 	void testStringDate_UW_pos1() { time += DAY; test("%c %U %W", "Fri Aug 24 14:55:02 2001 33 34"); }
 
 	@Test
-	void testStringDate_UW_pos2() { time += 2*DAY; test("%c %U %W", "Sat Aug 25 14:55:02 2001 33 34"); }
+	void testStringDate_UW_pos2() { time += 2 * DAY; test("%c %U %W", "Sat Aug 25 14:55:02 2001 33 34"); }
 
 	@Test
-	void testStringDate_UW_pos3() { time += 3*DAY; test("%c %U %W", "Sun Aug 26 14:55:02 2001 34 34"); }
+	void testStringDate_UW_pos3() { time += 3 * DAY; test("%c %U %W", "Sun Aug 26 14:55:02 2001 34 34"); }
 
 	@Test
-	void testStringDate_UW_pos4() { time += 4*DAY; test("%c %U %W", "Mon Aug 27 14:55:02 2001 34 35"); }
+	void testStringDate_UW_pos4() { time += 4 * DAY; test("%c %U %W", "Mon Aug 27 14:55:02 2001 34 35"); }
 
 	@Test
 	void testJseOsGetenvForEnvVariables() {

@@ -101,20 +101,20 @@ public class StringLib extends TwoArgFunction {
 	@Override
 	public LuaValue call(LuaValue modname, LuaValue env) {
 		LuaTable string = new LuaTable();
-		string.set("byte", new _byte());
-		string.set("char", new _char());
-		string.set("dump", new dump());
-		string.set("find", new find());
-		string.set("format", new format());
-		string.set("gmatch", new gmatch());
-		string.set("gsub", new gsub());
-		string.set("len", new len());
-		string.set("lower", new lower());
-		string.set("match", new match());
-		string.set("rep", new rep());
-		string.set("reverse", new reverse());
-		string.set("sub", new sub());
-		string.set("upper", new upper());
+		string.set("byte", new Byte());
+		string.set("char", new Char());
+		string.set("dump", new Dump());
+		string.set("find", new Find());
+		string.set("format", new Format());
+		string.set("gmatch", new GMatch());
+		string.set("gsub", new GSub());
+		string.set("len", new Len());
+		string.set("lower", new Lower());
+		string.set("match", new Match());
+		string.set("rep", new Rep());
+		string.set("reverse", new Reverse());
+		string.set("sub", new Sub());
+		string.set("upper", new Upper());
 
 		env.set("string", string);
 		if (!env.get("package").isnil())
@@ -135,7 +135,7 @@ public class StringLib extends TwoArgFunction {
 	 *
 	 * @param args the calling args
 	 */
-	static final class _byte extends VarArgFunction {
+	static final class Byte extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaString s = args.checkstring(1);
@@ -170,7 +170,7 @@ public class StringLib extends TwoArgFunction {
 	 *
 	 * @param args the calling VM
 	 */
-	static final class _char extends VarArgFunction {
+	static final class Char extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			int n = args.narg();
@@ -196,7 +196,7 @@ public class StringLib extends TwoArgFunction {
 	 *
 	 * TODO: port dumping code as optional add-on
 	 */
-	static final class dump extends VarArgFunction {
+	static final class Dump extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaValue f = args.checkfunction(1);
@@ -225,7 +225,7 @@ public class StringLib extends TwoArgFunction {
 	 * If the pattern has captures, then in a successful match the captured
 	 * values are also returned, after the two indices.
 	 */
-	static final class find extends VarArgFunction {
+	static final class Find extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			return str_find_aux(args, true);
@@ -254,7 +254,7 @@ public class StringLib extends TwoArgFunction {
 	 * This function does not accept string values containing embedded zeros,
 	 * except as arguments to the q option.
 	 */
-	final class format extends VarArgFunction {
+	final class Format extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaString fmt = args.checkstring(1);
@@ -549,7 +549,7 @@ public class StringLib extends TwoArgFunction {
 	 * For this function, a '^' at the start of a pattern does not work as an
 	 * anchor, as this would prevent the iteration.
 	 */
-	static final class gmatch extends VarArgFunction {
+	static final class GMatch extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaString src = args.checkstring(1);
@@ -631,7 +631,7 @@ public class StringLib extends TwoArgFunction {
 	 * local t = {name="lua", version="5.1"} x =
 	 * string.gsub("$name-$version.tar.gz", "%$(%w+)", t) --> x="lua-5.1.tar.gz"
 	 */
-	static final class gsub extends VarArgFunction {
+	static final class GSub extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaString src = args.checkstring(1);
@@ -674,7 +674,7 @@ public class StringLib extends TwoArgFunction {
 	 * Receives a string and returns its length. The empty string "" has length
 	 * 0. Embedded zeros are counted, so "a\000bc\000" has length 5.
 	 */
-	static final class len extends OneArgFunction {
+	static final class Len extends OneArgFunction {
 		@Override
 		public LuaValue call(LuaValue arg) {
 			return arg.checkstring().len();
@@ -689,7 +689,7 @@ public class StringLib extends TwoArgFunction {
 	 * The definition of what an uppercase letter is depends on the current
 	 * locale.
 	 */
-	static final class lower extends OneArgFunction {
+	static final class Lower extends OneArgFunction {
 		@Override
 		public LuaValue call(LuaValue arg) {
 			return valueOf(arg.checkjstring().toLowerCase());
@@ -705,7 +705,7 @@ public class StringLib extends TwoArgFunction {
 	 * A third, optional numerical argument init specifies where to start the
 	 * search; its default value is 1 and may be negative.
 	 */
-	static final class match extends VarArgFunction {
+	static final class Match extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			return str_find_aux(args, false);
@@ -717,7 +717,7 @@ public class StringLib extends TwoArgFunction {
 	 *
 	 * Returns a string that is the concatenation of n copies of the string s.
 	 */
-	static final class rep extends VarArgFunction {
+	static final class Rep extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			LuaString s = args.checkstring(1);
@@ -736,7 +736,7 @@ public class StringLib extends TwoArgFunction {
 	 *
 	 * Returns a string that is the string s reversed.
 	 */
-	static final class reverse extends OneArgFunction {
+	static final class Reverse extends OneArgFunction {
 		@Override
 		public LuaValue call(LuaValue arg) {
 			LuaString s = arg.checkstring();
@@ -757,7 +757,7 @@ public class StringLib extends TwoArgFunction {
 	 * string.sub(s,1,j) returns a prefix of s with length j, and string.sub(s,
 	 * -i) returns a suffix of s with length i.
 	 */
-	static final class sub extends VarArgFunction {
+	static final class Sub extends VarArgFunction {
 		@Override
 		public Varargs invoke(Varargs args) {
 			final LuaString s = args.checkstring(1);
@@ -787,7 +787,7 @@ public class StringLib extends TwoArgFunction {
 	 * The definition of what a lowercase letter is depends on the current
 	 * locale.
 	 */
-	static final class upper extends OneArgFunction {
+	static final class Upper extends OneArgFunction {
 		@Override
 		public LuaValue call(LuaValue arg) {
 			return valueOf(arg.checkjstring().toUpperCase());

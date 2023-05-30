@@ -21,10 +21,9 @@
 ******************************************************************************/
 package org.luaj.vm2.ast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
-
 import org.luaj.vm2.LuaString;
+
+import java.nio.charset.StandardCharsets;
 
 public class Str {
 
@@ -44,80 +43,40 @@ public class Str {
 
 	public static LuaString longString(String image) {
 		int i = image.indexOf('[', image.indexOf('[')+1)+1;
-		String s = image.substring(i, image.length()-i);
-		byte[] b = iso88591bytes(s);
+		String[] s = image.substring(i, image.length()-i).split("^\\r?\\n?", 2);
+		byte[] b = s[s.length - 1].getBytes(StandardCharsets.UTF_8);
 		return LuaString.valueUsing(b);
 	}
 
-	public static byte[] iso88591bytes(String s) {
-		try {
-			return s.getBytes("ISO8859-1");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException("ISO8859-1 not supported");
-		}
-	}
-
 	public static byte[] unquote(String s) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		StringBuilder builder = new StringBuilder();
 		char[] c = s.toCharArray();
-		int n = c.length;
-		for (int i = 0; i < n; i++) {
-			if (c[i] == '\\' && i < n) {
+		for (int i = 0, n = c.length; i < n; i++) {
+			if (c[i] == '\\' && i < n - 1) {
 				switch (c[++i]) {
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-					int d = c[i++]-'0';
-					for (int j = 0; i < n && j < 2 && c[i] >= '0' && c[i] <= '9'; i++, j++)
-						d = d*10+c[i]-'0';
-					baos.write((byte) d);
-					--i;
-					continue;
-				case 'a':
-					baos.write((byte) 7);
-					continue;
-				case 'b':
-					baos.write((byte) '\b');
-					continue;
-				case 'f':
-					baos.write((byte) '\f');
-					continue;
-				case 'n':
-					baos.write((byte) '\n');
-					continue;
-				case 'r':
-					baos.write((byte) '\r');
-					continue;
-				case 't':
-					baos.write((byte) '\t');
-					continue;
-				case 'v':
-					baos.write((byte) 11);
-					continue;
-				case '"':
-					baos.write((byte) '"');
-					continue;
-				case '\'':
-					baos.write((byte) '\'');
-					continue;
-				case '\\':
-					baos.write((byte) '\\');
-					continue;
-				default:
-					baos.write((byte) c[i]);
-					break;
+					case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+						int d = c[i++] - '0';
+						for (int j = 0; i < n && j < 2 && c[i] >= '0' && c[i] <= '9'; i++, j++)
+							d = d * 10 + c[i] - '0';
+						builder.append((char) d);
+						--i;
+					}
+					case 'a' -> builder.append('\u0007');
+					case 'b' -> builder.append('\b');
+					case 'f' -> builder.append('\f');
+					case 'n' -> builder.append('\n');
+					case 'r' -> builder.append('\r');
+					case 't' -> builder.append('\t');
+					case 'v' -> builder.append('\u000B');
+					case '"' -> builder.append('"');
+					case '\'' -> builder.append('\'');
+					case '\\' -> builder.append('\\');
+					default -> builder.append(c[i]);
 				}
 			} else {
-				baos.write((byte) c[i]);
+				builder.append(c[i]);
 			}
 		}
-		return baos.toByteArray();
+		return builder.toString().getBytes(StandardCharsets.UTF_8);
 	}
 }

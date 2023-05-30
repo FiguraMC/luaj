@@ -44,7 +44,7 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<jdkVersion>1.8</jdkVersion>
+							<jdkVersion>17</jdkVersion>
 							<javadocFriendlyComments>true</javadocFriendlyComments>
 							<packageName>org.luaj.vm2.parser</packageName>
 							<sourceDirectory>src/main/javacc</sourceDirectory>
