@@ -1470,7 +1470,7 @@ public class LuaTable extends LuaValue implements Metatable {
 				next = next.remove(target);
 				return this;
 			} else {
-				return next;
+				return next.remove(target);
 			}
 		}
 
