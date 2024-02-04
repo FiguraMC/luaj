@@ -53,26 +53,57 @@ public class Str {
 		char[] c = s.toCharArray();
 		for (int i = 0, n = c.length; i < n; i++) {
 			if (c[i] == '\\' && i < n - 1) {
-				switch (c[++i]) {
-					case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
-						int d = c[i++] - '0';
-						for (int j = 0; i < n && j < 2 && c[i] >= '0' && c[i] <= '9'; i++, j++)
-							d = d * 10 + c[i] - '0';
-						builder.append((char) d);
-						--i;
-					}
-					case 'a' -> builder.append('\u0007');
-					case 'b' -> builder.append('\b');
-					case 'f' -> builder.append('\f');
-					case 'n' -> builder.append('\n');
-					case 'r' -> builder.append('\r');
-					case 't' -> builder.append('\t');
-					case 'v' -> builder.append('\u000B');
-					case '"' -> builder.append('"');
-					case '\'' -> builder.append('\'');
-					case '\\' -> builder.append('\\');
-					default -> builder.append(c[i]);
-				}
+                switch (c[++i]) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int d = c[i++] - '0';
+                        for (int j = 0; i < n && j < 2 && c[i] >= '0' && c[i] <= '9'; i++, j++)
+                            d = d * 10 + c[i] - '0';
+                        builder.append((char) d);
+                        --i;
+                        break;
+                    case 'a':
+                        builder.append('\u0007');
+                        break;
+                    case 'b':
+                        builder.append('\b');
+                        break;
+                    case 'f':
+                        builder.append('\f');
+                        break;
+                    case 'n':
+                        builder.append('\n');
+                        break;
+                    case 'r':
+                        builder.append('\r');
+                        break;
+                    case 't':
+                        builder.append('\t');
+                        break;
+                    case 'v':
+                        builder.append('\u000B');
+                        break;
+                    case '"':
+                        builder.append('"');
+                        break;
+                    case '\'':
+                        builder.append('\'');
+                        break;
+                    case '\\':
+                        builder.append('\\');
+                        break;
+                    default:
+                        builder.append(c[i]);
+                        break;
+                }
 			} else {
 				builder.append(c[i]);
 			}
