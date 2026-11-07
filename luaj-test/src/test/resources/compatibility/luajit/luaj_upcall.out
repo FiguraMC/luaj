@@ -1,0 +1,57 @@
+Fixed arg: New Grammar
+argc: 0
+Fixed arg: New Grammar
+argc: 1
+ARG_0_0,
+Fixed arg: New Grammar
+argc: 2
+ARG_1_0,
+ARG_1_1
+
+Fixed arg: New Grammar TYPED
+argc: 0
+Fixed arg: New Grammar TYPED
+argc: 1
+ARG_0_0,
+Fixed arg: New Grammar TYPED
+argc: 2
+ARG_1_0,
+ARG_1_1
+
+Fixed arg: Old Grammar Compat
+argc: 0
+Fixed arg: Old Grammar Compat
+argc: 1
+ARG_0_0,
+Fixed arg: Old Grammar Compat
+argc: 2
+ARG_1_0,
+ARG_1_1
+
+Fixed arg: Old Grammar Compat TYPED
+argc: 0
+Fixed arg: Old Grammar Compat TYPED
+argc: 1
+ARG_0_0,
+Fixed arg: Old Grammar Compat TYPED
+argc: 2
+ARG_1_0,
+ARG_1_1
+
+Object[]... TEST Found 0 arrays
+Object[]... TEST Found 2 arrays
+Layer 0 has 1 elements
+  ARG_0_0
+Layer 1 has 1 elements
+  ARG_0_1
+Object[]... TEST Found 0 arrays
+Object[]... TEST Found 1 arrays
+Layer 0 has 1 elements
+  ARG_1_0
+Object[]... TEST Found 3 arrays
+Layer 0 has 2 elements
+  ARG_2_0
+  1
+Layer 1 has 1 elements
+  ARG_2_2
+Layer 2 has 0 elements

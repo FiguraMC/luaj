@@ -109,6 +109,9 @@ public class CompatibiltyTest {
 
 		@Test
 		void testVm() { runTest("vm"); }
+
+		@Test
+		void testLuajUpcall() { runTest("luaj_upcall"); }
 	}
 
 	@Nested
@@ -129,6 +132,11 @@ public class CompatibiltyTest {
 		// Emulator cannot create files for writing
 		@Override
 		void testOsLib() {}
+
+		@Override
+		void testLuajUpcall() {
+			// JME cannot run this test because tha lack of `luajava`
+		}
 	}
 
 	@Nested
