@@ -21,9 +21,13 @@
 ******************************************************************************/
 package org.luaj.vm2.lib.jse;
 
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.CoerceLuaToJava.Coercion;
+
+import java.lang.reflect.Array;
 
 /**
  * Java method or constructor.
@@ -45,13 +49,24 @@ abstract class JavaMember extends VarArgFunction {
 
 	final Coercion[] fixedargs;
 	final Coercion   varargs;
+	final Class      exactVarargType;
+	final Coercion   exactVarargTypeCoercion;
 
 	protected JavaMember(Class[] params, int modifiers) {
 		boolean isvarargs = (modifiers & METHOD_MODIFIERS_VARARGS) != 0;
 		fixedargs = new CoerceLuaToJava.Coercion[isvarargs? params.length-1: params.length];
 		for (int i = 0; i < fixedargs.length; i++)
 			fixedargs[i] = CoerceLuaToJava.getCoercion(params[i]);
-		varargs = isvarargs? CoerceLuaToJava.getCoercion(params[params.length-1]): null;
+		if (isvarargs) {
+			Class lastParamType = params[params.length - 1];
+			exactVarargType = lastParamType.getComponentType();
+			varargs = CoerceLuaToJava.getCoercion(lastParamType);
+			exactVarargTypeCoercion = CoerceLuaToJava.getCoercion(exactVarargType);
+		} else {
+			exactVarargType = null;
+			varargs = null;
+			exactVarargTypeCoercion = null;
+		}
 	}
 
 	int score(Varargs args) {
@@ -72,13 +87,63 @@ abstract class JavaMember extends VarArgFunction {
 			for (int i = 0; i < a.length; i++)
 				a[i] = fixedargs[i].coerce(args.arg(i+1));
 		} else {
-			int n = Math.max(fixedargs.length, args.narg());
-			a = new Object[n];
-			for (int i = 0; i < fixedargs.length; i++)
-				a[i] = fixedargs[i].coerce(args.arg(i+1));
-			for (int i = fixedargs.length; i < n; i++)
-				a[i] = varargs.coerce(args.arg(i+1));
+			int n = fixedargs.length;
+			a = new Object[n + 1];
+			for (int i = 0; i < fixedargs.length; i++) {
+				a[i] = fixedargs[i].coerce(args.arg(i + 1));
+			}
+			a[fixedargs.length] = coerceVarArgs(args);
 		}
 		return a;
+	}
+
+	/**
+	 * Ported from <a href="https://github.com/ChloePrime/GunsmithLib/blob/master/src/main/java/mod/chloeprime/gunsmithlib/mixin/common/luaj/bugfix/MixinJavaMember.java">GunsmithLib's fix via SpongePowered Mixin</a>
+	 */
+	private Object coerceVarArgs(Varargs args) {
+		// Compatibility path
+		Object compat = coerceVarArgsCompat(args);
+		if (compat != null) {
+			return compat;
+		}
+		// LuaValue[] -> Object[]
+		int base = fixedargs.length;
+		int argc = args.narg() - base;
+		if (argc == 0) {
+			return Array.newInstance(exactVarargType, 0);
+		}
+		LuaTable argv = new LuaTable();
+		for (int i = 0; i < argc; i++) {
+			argv.set(i + 1, args.arg(base + i + 1));
+		}
+		return varargs.coerce(argv);
+	}
+
+	/**
+	 * Compatibility method for old workable grammar {@code javaMethod(fix_arg, {vararg_0, vararg_1})}
+	 */
+	private Object coerceVarArgsCompat(Varargs args) {
+		// There must be only 1 varargs
+		if (args.narg() != fixedargs.length + 1) {
+			return null;
+		}
+		LuaValue tail = args.arg(args.narg());
+		if (!(tail instanceof LuaTable)) {
+			return null;
+		}
+		LuaTable argArray = (LuaTable) tail;
+		int len = argArray.length();
+		if (len == 0) {
+			return Array.newInstance(exactVarargType, 0);
+		}
+		// If type mismatch (e.g. passes {0} to Object[]...)
+		if (exactVarargTypeCoercion.coerce(argArray.get(1)) == null) {
+			return null;
+		}
+		Object[] jArgv = (Object[]) Array.newInstance(exactVarargType, len);
+		for (int i = 0; i < len; i++) {
+			jArgv[i] = exactVarargTypeCoercion.coerce(argArray.get(i + 1));
+		}
+		return jArgv;
 	}
 }
