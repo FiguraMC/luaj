@@ -122,7 +122,8 @@ class OsLibTest {
 
 	@Test
 	void testJseOsGetenvForEnvVariables() {
-		LuaValue USER = LuaValue.valueOf("USER");
+		// "USER" is not available on Windows
+		LuaValue USER = LuaValue.valueOf("PATH");
 		LuaValue jse_user = jse_lib.get("getenv").call(USER);
 		assertFalse(jse_user.isnil());
 	}
