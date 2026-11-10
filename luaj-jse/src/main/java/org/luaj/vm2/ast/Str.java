@@ -93,8 +93,20 @@ public class Str {
                         builder.write('\u000B');
                         break;
                     case 'x':
+                        if (i + 2 >= n) {
+                            builder.write(c[i]);
+                            break;
+                        }
                         int x = Integer.parseInt(new String(new char[]{c[++i], c[++i]}), 16);
                         builder.write((char) x);
+                        break;
+                    case 'z':
+                        while (++i < n) {
+                            if (!Character.isWhitespace(c[i])) {
+                                i--;
+                                break;
+                            }
+                        }
                         break;
                     case '"':
                         builder.write('"');
