@@ -23,6 +23,7 @@ package org.luaj.vm2.ast;
 
 import org.luaj.vm2.LuaString;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class Str {
@@ -49,7 +50,7 @@ public class Str {
 	}
 
 	public static byte[] unquote(String s) {
-		StringBuilder builder = new StringBuilder();
+        ByteArrayOutputStream builder = new ByteArrayOutputStream(s.length());
 		char[] c = s.toCharArray();
 		for (int i = 0, n = c.length; i < n; i++) {
 			if (c[i] == '\\' && i < n - 1) {
@@ -67,47 +68,51 @@ public class Str {
                         int d = c[i++] - '0';
                         for (int j = 0; i < n && j < 2 && c[i] >= '0' && c[i] <= '9'; i++, j++)
                             d = d * 10 + c[i] - '0';
-                        builder.append((char) d);
+                        builder.write(d);
                         --i;
                         break;
                     case 'a':
-                        builder.append('\u0007');
+                        builder.write('\u0007');
                         break;
                     case 'b':
-                        builder.append('\b');
+                        builder.write('\b');
                         break;
                     case 'f':
-                        builder.append('\f');
+                        builder.write('\f');
                         break;
                     case 'n':
-                        builder.append('\n');
+                        builder.write('\n');
                         break;
                     case 'r':
-                        builder.append('\r');
+                        builder.write('\r');
                         break;
                     case 't':
-                        builder.append('\t');
+                        builder.write('\t');
                         break;
                     case 'v':
-                        builder.append('\u000B');
+                        builder.write('\u000B');
+                        break;
+                    case 'x':
+                        int x = Integer.parseInt(new String(new char[]{c[++i], c[++i]}), 16);
+                        builder.write((char) x);
                         break;
                     case '"':
-                        builder.append('"');
+                        builder.write('"');
                         break;
                     case '\'':
-                        builder.append('\'');
+                        builder.write('\'');
                         break;
                     case '\\':
-                        builder.append('\\');
+                        builder.write('\\');
                         break;
                     default:
-                        builder.append(c[i]);
+                        builder.write(c[i]);
                         break;
                 }
 			} else {
-				builder.append(c[i]);
+				builder.write(c[i]);
 			}
 		}
-		return builder.toString().getBytes(StandardCharsets.UTF_8);
+		return builder.toByteArray();
 	}
 }
