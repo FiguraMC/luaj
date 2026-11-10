@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.luaj</groupId>
+		<groupId>com.github.FiguraMC.luaj</groupId>
 		<artifactId>luaj-parent</artifactId>
-		<version>3.0.2</version>
+		<version>3.0.9-figura</version>
 	</parent>
 
 	<artifactId>luaj-test</artifactId>
@@ -16,17 +16,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.luaj</groupId>
+			<groupId>com.github.FiguraMC.luaj</groupId>
 			<artifactId>luaj-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.luaj</groupId>
+			<groupId>com.github.FiguraMC.luaj</groupId>
 			<artifactId>luaj-jme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.luaj</groupId>
+			<groupId>com.github.FiguraMC.luaj</groupId>
 			<artifactId>luaj-jse</artifactId>
 			<version>${project.version}</version>
 		</dependency>
